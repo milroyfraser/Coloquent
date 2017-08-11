@@ -1,14 +1,15 @@
 import {Response} from "./Response";
 import {Model} from "./Model";
 import {JsonApiDoc} from "./JsonApiDoc";
+import collect from "collect.js";
 
 export class PluralResponse extends Response
 {
     protected data: Model[];
 
-    public getData(): Model[]
+    public getData()
     {
-        return this.data;
+        return collect(this.data);
     }
 
     protected indexRequestedDocs(requestedDocs: JsonApiDoc[] = [])
