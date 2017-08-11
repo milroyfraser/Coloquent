@@ -3,6 +3,7 @@ import {JsonApiDoc} from "./JsonApiDoc";
 import {Map} from "./util/Map";
 import {AxiosInstance, AxiosPromise} from "axios";
 import axios from 'axios';
+import moment from 'moment';
 import {PluralResponse} from "./PluralResponse";
 import {SingularResponse} from "./SingularResponse";
 
@@ -29,6 +30,8 @@ export abstract class Model
     private axiosInstance: AxiosInstance;
 
     protected readOnlyAttributes: string[];
+
+    protected dates: string[];
 
     constructor()
     {
@@ -160,6 +163,10 @@ export abstract class Model
 
     protected getAttribute(attributeName: string): any
     {
+        if (this.dates.indexOf(attributeName) !== -1 && moment(this.attributes.get(attributeName)).isValid()) {
+            return moment(this.attributes.get(attributeName));
+        }
+
         return this.attributes.get(attributeName);
     }
 
